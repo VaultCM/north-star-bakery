@@ -7,7 +7,7 @@ const productData = [
 
 const favoriteMessages = [
   "Saved to your favorites.",
-  "Already in your favorites."
+  "Removed from your favorites."
 ];
 
 function getFavorites() {
@@ -51,29 +51,31 @@ function updateFavoriteDisplay() {
   });
 }
 
-function showFavoriteStatus(productId) {
+function showFavoriteStatus(productId, wasSaved) {
   const status = document.getElementById("favorite-status");
   if (!status) return;
 
-  const favorites = getFavorites();
   const product = productData.find((item) => item.id === productId);
-  const messageIndex = favorites.includes(productId) ? 0 : 1;
+  const messageIndex = wasSaved ? 0 : 1;
   status.textContent = product ? `${product.name}: ${favoriteMessages[messageIndex]}` : "";
 }
 
 function toggleFavorite(productId) {
   const favorites = getFavorites();
   const index = favorites.indexOf(productId);
+  let wasSaved;
 
   if (index >= 0) {
     favorites.splice(index, 1);
+    wasSaved = false;
   } else {
     favorites.push(productId);
+    wasSaved = true;
   }
 
   saveFavorites(favorites);
   updateFavoriteDisplay();
-  showFavoriteStatus(productId);
+  showFavoriteStatus(productId, wasSaved);
 }
 
 function setupFavoriteButtons() {
