@@ -32,17 +32,16 @@ function updateFavoriteDisplay() {
     list.innerHTML = "";
     if (favorites.length === 0) {
       list.innerHTML = "<li>No favorites saved yet.</li>";
-      return;
+    } else {
+      favorites.forEach((favoriteId) => {
+        const product = productData.find((item) => item.id === favoriteId);
+        if (product) {
+          const item = document.createElement("li");
+          item.textContent = `${product.name} — ${product.price}`;
+          list.appendChild(item);
+        }
+      });
     }
-
-    favorites.forEach((favoriteId) => {
-      const product = productData.find((item) => item.id === favoriteId);
-      if (product) {
-        const item = document.createElement("li");
-        item.textContent = `${product.name} — ${product.price}`;
-        list.appendChild(item);
-      }
-    });
   }
 
   document.querySelectorAll(".favorite-button").forEach((button) => {
@@ -50,6 +49,16 @@ function updateFavoriteDisplay() {
     button.textContent = isFavorite ? "★ Saved" : "☆ Save Favorite";
     button.setAttribute("aria-pressed", String(isFavorite));
   });
+}
+
+function showFavoriteStatus(productId) {
+  const status = document.getElementById("favorite-status");
+  if (!status) return;
+
+  const favorites = getFavorites();
+  const product = productData.find((item) => item.id === productId);
+  const messageIndex = favorites.includes(productId) ? 0 : 1;
+  status.textContent = product ? `${product.name}: ${favoriteMessages[messageIndex]}` : "";
 }
 
 function toggleFavorite(productId) {
@@ -64,6 +73,7 @@ function toggleFavorite(productId) {
 
   saveFavorites(favorites);
   updateFavoriteDisplay();
+  showFavoriteStatus(productId);
 }
 
 function setupFavoriteButtons() {
@@ -94,7 +104,7 @@ function validateContactForm(form) {
   let valid = true;
   const name = document.getElementById("name");
   const email = document.getElementById("email");
-  const details = document.getElementById("details");
+  const details = document.getElementById("item-details");
 
   [name, email, details].forEach(clearValidationMessage);
 
