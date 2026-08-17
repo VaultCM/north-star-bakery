@@ -134,6 +134,37 @@ button {
 
 button:hover, button:focus { background: var(--peach); color: var(--charcoal); }
 
+.favorite-button {
+  margin-top: 0.5rem;
+}
+
+.favorites-panel {
+  background: #fffdf9;
+  border-left-color: var(--brown);
+}
+
+.favorites-panel ul {
+  padding-left: 1.25rem;
+}
+
+.status-message {
+  min-height: 1.5rem;
+  color: var(--brown);
+  font-weight: 700;
+}
+
+.form-error {
+  display: block;
+  min-height: 1.4rem;
+  color: var(--brown);
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+input[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border: 2px solid var(--peach);
+}
+
 footer {
   background: var(--brown);
   color: var(--cream);
